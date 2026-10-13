@@ -165,6 +165,44 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
+  // FLOATING BALLOONS DECORATION
+  // ==========================================
+  function spawnFloatingBalloons() {
+    const layer = document.getElementById('balloonsLayer');
+    if (!layer) return;
+
+    const palette = [
+      ['#10B981', '#059669'],
+      ['#F59E0B', '#FBBF24'],
+      ['#38BDF8', '#0284C7'],
+      ['#F43F5E', '#FB7185'],
+      ['#8B5CF6', '#A78BFA'],
+      ['#FCD34D', '#F59E0B']
+    ];
+
+    const count = 11;
+    for (let i = 0; i < count; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+
+      const [c1, c2] = palette[i % palette.length];
+      const size = Math.random() * 26 + 42;
+      const duration = Math.random() * 12 + 14;
+      const delay = -(Math.random() * duration);
+
+      balloon.style.left = `${Math.round(Math.random() * 92)}%`;
+      balloon.style.width = `${size}px`;
+      balloon.style.height = `${size * 1.22}px`;
+      balloon.style.background = `radial-gradient(circle at 32% 28%, ${c2} 0%, ${c1} 70%)`;
+      balloon.style.animationDuration = `${duration}s`;
+      balloon.style.animationDelay = `${delay}s`;
+      balloon.style.filter = 'drop-shadow(0 6px 10px rgba(0, 0, 0, 0.08))';
+
+      layer.appendChild(balloon);
+    }
+  }
+
+  // ==========================================
   // NAVIGATION & VIEW SWITCHER
   // ==========================================
   function switchView(targetViewId) {
@@ -388,6 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     stepper.querySelectorAll('.stepper-item').forEach(item => {
       item.addEventListener('click', () => {
+        window.Sound && window.Sound.playClick();
         renderLesson(book, parseInt(item.getAttribute('data-lesson'), 10));
       });
     });
@@ -457,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderLesson(book, idx + 1);
     });
     document.getElementById('lessonCompleteBtn')?.addEventListener('click', () => {
+      window.Sound && window.Sound.playClick();
       completeLesson(book, lesson);
     });
     viewer.querySelectorAll('.lesson-listen-btn').forEach(btn => {
@@ -623,6 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('#matchSubTabs .submodule-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      window.Sound && window.Sound.playClick();
       const cat = parseInt(btn.getAttribute('data-matchcat'), 10);
       initMatchingGame(cat);
     });
@@ -687,6 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('quizChapterSelect')?.addEventListener('change', (e) => {
+    window.Sound && window.Sound.playClick();
     initQuiz(parseInt(e.target.value, 10));
   });
 
@@ -712,6 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hint = document.getElementById('quizHintTrigger');
     if (hint) {
       hint.onclick = () => {
+        window.Sound && window.Sound.playClick();
         showCelebrationToast(`💡 Hint: ${q.hint}`);
       };
     }
@@ -741,6 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function handleQuizOptionClick(e) {
+    window.Sound && window.Sound.playClick();
     const btn = e.currentTarget;
     const chosenIdx = parseInt(btn.getAttribute('data-index'), 10);
     const chapterData = CURRICULUM_DATA.quizzes[AppState.currentQuizChapter];
@@ -773,6 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function handleQuizNextQuestion() {
+    window.Sound && window.Sound.playClick();
     const chapterData = CURRICULUM_DATA.quizzes[AppState.currentQuizChapter];
     const totalQ = chapterData.questions.length;
 
@@ -951,6 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   updateHeaderCounters();
   renderLibrary();
+  spawnFloatingBalloons();
   renderFlashcard();
   initMatchingGame(0);
   initQuiz(0);

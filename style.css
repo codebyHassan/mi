@@ -1799,6 +1799,75 @@ body {
   z-index: 9999;
 }
 
+/* ==========================================================================
+   FLOATING BALLOONS (KID-FRIENDLY BACKGROUND DECORATION)
+   ========================================================================== */
+.balloons-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.balloon {
+  position: absolute;
+  bottom: -180px;
+  width: 54px;
+  height: 66px;
+  border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+  opacity: 0.85;
+  animation-name: balloonRise;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.balloon::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 13px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  filter: blur(1.5px);
+}
+
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  width: 2px;
+  height: 34px;
+  background: rgba(100, 116, 139, 0.4);
+  transform: translateX(-50%);
+}
+
+@keyframes balloonRise {
+  0% {
+    transform: translateY(0) translateX(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-58vh) translateX(26px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(-118vh) translateX(0) rotate(-5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balloon {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
+
 .modal-backdrop {
   position: fixed;
   top: 0;
