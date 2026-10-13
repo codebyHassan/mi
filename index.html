@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quran Curriculum Library | 8 Books, Step-by-Step Lessons</title>
+  <meta name="description"
+    content="Interactive Islamic learning library built directly from the original PDF books: Madani Qaida, Arabic Alphabet, Letter Positions, Tajweed Curriculum, Hamzatul Wasl & Qata, I Love Islam Level 1 and Arabic Letters for Non-Arabs.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head>
+
+<body>
+
+  <!-- Confetti Canvas for Celebrations -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- ==========================================================================
+       NAVIGATION BAR
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="nav-container">
+      <div class="brand-logo" id="brandLogoBtn">
+        <div class="logo-icon">📚</div>
+        <div class="logo-text">
+          <h1>Ilm Library</h1>
+          <span>Quran &amp; Tajweed Books</span>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="main-nav">
+          <li><button class="nav-btn active" data-target="view-library" id="navLibraryBtn">📚 Library</button></li>
+          <li><button class="nav-btn" data-target="view-games" id="navGamesBtn">🎮 Practice &amp; Games</button></li>
+        </ul>
+      </nav>
+
+      <div class="nav-rewards">
+        <!-- Live Star Counter -->
+        <div class="star-pill" id="starPillBtn" title="Your Earned Stars! Click to view Profile">
+          <span class="star-icon">⭐</span>
+          <span id="starCounterDisplay">0</span> Stars
+        </div>
+
+        <!-- Student Profile Button -->
+        <button class="profile-pill-btn" id="openProfileBtn" title="Student Dashboard">
+          <span>🏆</span> Profile
+        </button>
+
+        <!-- Sound FX Toggle -->
+        <button class="audio-toggle-btn" id="soundToggleBtn" title="Toggle Sound Effects">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       HERO BANNER
+       ========================================================================== -->
+  <section class="hero-section" id="heroBanner">
+    <div class="hero-pattern"></div>
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🌙</span> Learn directly from the original books
+        </div>
+        <h2 class="hero-title">
+          Quran &amp; Tajweed Curriculum Library
+          <span class="arabic-sub">مَكْتَبَةُ تَعَلُّمِ الْقُرْآنِ وَالتَّجْوِيد</span>
+        </h2>
+        <p class="hero-desc">
+          Eight complete courses, presented exactly as they appear in the source books — page by page,
+          chapter by chapter. Pick a book, follow the ordered lessons, and learn at your own pace.
+        </p>
+        <div class="hero-cta-group">
+          <button class="btn-primary" id="startLearningHeroBtn">
+            <span>🚀</span> Open the Library
+          </button>
+          <button class="btn-secondary" id="playGamesHeroBtn">
+            <span>🎮</span> Practice &amp; Games
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-illustration-wrapper">
+        <span class="floating-sparkle sparkle-1">✨</span>
+        <span class="floating-sparkle sparkle-2">🌟</span>
+        <img src="assets/images/hero_mascot.jpg" alt="Muslim children reading the Holy Quran happily"
+          class="hero-image" id="heroMascotImg">
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+  <main class="main-layout">
+
+    <!-- ----------------------------------------------------------------------
+         VIEW 1: BOOK LIBRARY (HOME DASHBOARD)
+         ---------------------------------------------------------------------- -->
+    <section class="view-section active" id="view-library">
+      <div class="section-header-banner">
+        <div class="section-header-text">
+          <h2>Curriculum Library</h2>
+          <h3>مَكْتَبَةُ الْمُقَرَّرَات — ٨ كُتُب</h3>
+          <p>Each book below is a full course. Open a book to see its lessons in order, then step through
+            every page exactly as it is printed in the original PDF.</p>
+        </div>
+        <div class="section-badge-counter">
+          <strong>8 Books</strong>
+          <span>Step-by-Step Lessons</span>
+        </div>
+      </div>
+
+      <div class="book-library-grid" id="bookLibraryGrid">
+        <!-- Rendered by JS from books.js -->
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         VIEW 2: COURSE / LESSON VIEWER (DYNAMIC)
+         ---------------------------------------------------------------------- -->
+    <section class="view-section" id="view-course">
+      <button class="course-back-btn" id="courseBackBtn">← Back to Library</button>
+      <div id="courseHeader"><!-- Rendered by JS --></div>
+
+      <div class="course-layout">
+        <aside class="lesson-sidebar">
+          <h3 class="lesson-sidebar-title">📑 Lessons</h3>
+          <div class="lesson-stepper" id="lessonStepper"><!-- Rendered by JS --></div>
+        </aside>
+
+        <div class="lesson-main" id="lessonViewer"><!-- Rendered by JS --></div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         VIEW 3: PRACTICE & GAMES (SUPPLEMENT)
+         ---------------------------------------------------------------------- -->
+    <section class="view-section" id="view-games">
+      <div class="section-header-banner">
+        <div class="section-header-text">
+          <h2>Practice &amp; Mini-Games</h2>
+          <h3>الأَلْعَابُ التَّعْلِيمِيَّةُ وَالاِخْتِبَارَات</h3>
+          <p>Fun revision drawn from the books you are studying! Earn +5 golden stars and collect badges as
+            you practise. Choose a game below:</p>
+        </div>
+        <div class="section-badge-counter">
+          <strong>4 Game Modes</strong>
+          <span>Earn +5 Stars Each!</span>
+        </div>
+      </div>
+
+      <!-- Games Mode Selector -->
+      <div class="games-hub-tabs">
+        <button class="game-tab-pill active" id="tabMatchingGame" data-game="matching">
+          <span>🧩</span> Word Matching
+        </button>
+        <button class="game-tab-pill" id="tabQuizGame" data-game="quiz">
+          <span>🎯</span> Chapter Quiz
+        </button>
+        <button class="game-tab-pill" id="tabMemoryGame" data-game="memory">
+          <span>🃏</span> Memory Flip
+        </button>
+        <button class="game-tab-pill" id="tabFlashcardsGame" data-game="flashcards">
+          <span>📇</span> Flashcards
+        </button>
+      </div>
+
+      <!-- Game Arena Display -->
+      <div class="game-arena-wrapper">
+
+        <!-- GAME 1: MATCHING GAME ARENA -->
+        <div id="arena-matching" class="game-arena-content">
+          <div
+            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <h3 style="font-size: 1.5rem; color: var(--primary-emerald-dark);" id="matchCategoryTitle">Tajweed Rules
+                Matcher</h3>
+              <p style="color: var(--text-muted);">Click an item on the left, then click its matching partner on the
+                right!</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;" id="matchSubTabs">
+              <button class="submodule-btn active" data-matchcat="0">Tajweed</button>
+              <button class="submodule-btn" data-matchcat="1">Harakat</button>
+              <button class="submodule-btn" data-matchcat="2">Letters</button>
+            </div>
+          </div>
+
+          <div class="matching-columns-grid">
+            <div class="match-column" id="matchingLeftColumn"><!-- Rendered --></div>
+            <div class="match-column" id="matchingRightColumn"><!-- Rendered --></div>
+          </div>
+        </div>
+
+        <!-- GAME 2: MCQ QUIZ ARENA -->
+        <div id="arena-quiz" class="game-arena-content" style="display: none;">
+          <div class="quiz-container">
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+              <select id="quizChapterSelect"
+                style="padding: 0.5rem 1rem; border-radius: var(--radius-full); border: 2px solid #CBD5E1; font-family: var(--font-kid); font-weight: 700;">
+                <option value="0">🔤 Alphabet &amp; Shapes Quiz</option>
+                <option value="1">✨ Harakat &amp; Tanween Quiz</option>
+                <option value="2">📜 Tajweed Rules Champion Quiz</option>
+                <option value="3">🕊️ Prophet Muhammad ﷺ Quiz</option>
+                <option value="4">🕌 Pillars &amp; Salah Quiz</option>
+              </select>
+              <span id="quizScoreDisplay" style="font-weight: 700; color: #B45309;">Score: 0 / 0</span>
+            </div>
+
+            <div class="quiz-progress-bar-wrapper">
+              <div class="quiz-progress-fill" id="quizProgressBar"></div>
+            </div>
+
+            <div class="quiz-meta-row">
+              <span id="quizQuestionNum">Question 1 of 3</span>
+              <span id="quizHintTrigger" style="cursor: pointer; color: var(--sky-blue);">💡 Need a Hint?</span>
+            </div>
+
+            <div class="quiz-question-box" id="quizQuestionText"><!-- Question text --></div>
+
+            <div class="quiz-options-list" id="quizOptionsContainer"><!-- Rendered options --></div>
+
+            <div class="quiz-feedback-box" id="quizFeedbackBox"><!-- Feedback --></div>
+
+            <button class="btn-primary" id="quizNextBtn" style="display: none; align-self: flex-end;">
+              Next Question ➡️
+            </button>
+          </div>
+        </div>
+
+        <!-- GAME 3: MEMORY FLIP ARENA -->
+        <div id="arena-memory" class="game-arena-content" style="display: none;">
+          <div
+            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 680px; margin: 0 auto;">
+            <div>
+              <h3 style="font-size: 1.5rem; color: var(--primary-emerald-dark);">Memory Pair Finder</h3>
+              <p style="color: var(--text-muted);">Flip two cards to match Arabic letters, Tajweed rules, and Seerah
+                facts!</p>
+            </div>
+            <button class="btn-secondary" id="restartMemoryBtn"
+              style="color: var(--primary-emerald-dark); border-color: #CBD5E1; padding: 0.4rem 1rem;">
+              🔄 Restart
+            </button>
+          </div>
+
+          <div class="memory-game-grid" id="memoryGridContainer"><!-- Rendered --></div>
+        </div>
+
+        <!-- GAME 4: FLIP FLASHCARDS ARENA -->
+        <div id="arena-flashcards" class="game-arena-content" style="display: none;">
+          <div class="flashcards-container">
+            <h3 style="font-size: 1.5rem; color: var(--primary-emerald-dark);">Interactive Study Flashcards</h3>
+            <p style="color: var(--text-muted);">Click or tap the card to flip between question and answer!</p>
+
+            <div class="flashcard-stage" id="flashcardStage">
+              <div class="flip-card-inner" id="activeFlipCard">
+                <div class="flip-card-front">
+                  <span class="card-badge" id="fcBadgeFront">Alphabet</span>
+                  <div class="arabic-huge" id="fcArabicFront">ب</div>
+                  <div class="sub-txt" id="fcSubFront">Baa (Friendly Letter)</div>
+                  <div class="flip-prompt">🔄 Tap card to flip &amp; learn rule</div>
+                </div>
+                <div class="flip-card-back">
+                  <span class="card-badge" style="background: #D97706;" id="fcBadgeBack">Rule</span>
+                  <h4 style="font-size: 1.35rem; color: #92400E; margin-bottom: 0.5rem;" id="fcTitleBack">Shape
+                    Transformations</h4>
+                  <div style="font-size: 1.15rem; font-weight: 700; color: #78350F; margin-bottom: 0.5rem;"
+                    id="fcContentBack">
+                    Isolated: ب | Initial: بـ | Medial: ـبـ | Final: ـب
+                  </div>
+                  <p style="font-size: 0.9rem; color: #92400E;" id="fcTipBack">
+                    Friendly letter connects easily on both sides!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flashcard-nav-controls">
+              <button class="nav-circle-btn" id="fcPrevBtn" title="Previous Flashcard">⬅️</button>
+              <span id="fcCounterDisplay" style="font-weight: 700; color: var(--text-muted);">Card 1 / 8</span>
+              <button class="nav-circle-btn" id="fcNextBtn" title="Next Flashcard">➡️</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       STUDENT PROFILE & WEEKLY SALAH TRACKER MODAL
+       ========================================================================== -->
+  <div class="modal-backdrop" id="profileModalBackdrop">
+    <div class="modal-box" style="max-width: 780px; text-align: left;">
+      <button id="closeProfileModalBtn"
+        style="position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+
+      <div class="profile-hero-row">
+        <div class="student-avatar">🌟</div>
+        <div>
+          <h2 style="font-size: 1.6rem; color: var(--primary-emerald-dark);" id="profileStudentName">Young Quran
+            Champion</h2>
+          <span
+            style="background: #FEF3C7; color: #B45309; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-weight: 700; font-size: 0.85rem;"
+            id="profileRankTitle">
+            Seeker of Knowledge
+          </span>
+        </div>
+        <div class="student-stats-row">
+          <div class="stat-metric-card">
+            <strong id="profileStarsCount">0</strong>
+            <span>Stars</span>
+          </div>
+          <div class="stat-metric-card">
+            <strong id="profileBadgesCount">0 / 6</strong>
+            <span>Badges</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievement Badges -->
+      <h3 style="font-size: 1.3rem; color: var(--primary-emerald-dark); margin-bottom: 0.5rem;">🏅 Achievement Badges
+      </h3>
+      <div class="badges-grid" id="badgesDisplayGrid"><!-- Rendered by JS --></div>
+
+      <!-- Weekly Salah Tracker Chart -->
+      <div class="salah-tracker-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+          <div>
+            <h4 style="font-size: 1.25rem; color: var(--primary-emerald-dark);">Weekly Salah Checklist Tracker 🕌</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Tick your daily prayers! Building habits for
+              Jannah.</p>
+          </div>
+          <span style="font-weight: 700; color: #059669;" id="salahStreakDisplay">🔥 0 Prayers Prayed</span>
+        </div>
+
+        <table class="salah-tracker-table">
+          <thead>
+            <tr>
+              <th>Prayer</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+            </tr>
+          </thead>
+          <tbody id="salahTrackerTableBody"><!-- Rendered by JS --></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MOTIVATIONAL CELEBRATION MODAL
+       ========================================================================== -->
+  <div class="modal-backdrop" id="celebrationModalBackdrop">
+    <div class="modal-box">
+      <div class="modal-mascot-icon">🎉</div>
+      <h3 class="modal-title" id="celebrationTitle">MashaAllah! Great Job!</h3>
+      <div class="modal-sub" id="celebrationSub">مَا شَاءَ اللَّهُ تَبَارَكَ اللَّهُ</div>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="celebrationDesc">
+        You earned +5 golden stars for completing this challenge! Keep learning and shining bright!
+      </p>
+      <button class="btn-primary" id="closeCelebrationModalBtn" style="margin: 0 auto;">
+        Alhamdulillah! Continue 🌟
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <p style="font-weight: 700; font-size: 1.15rem;">Quran &amp; Tajweed Curriculum Library</p>
+    <p>Learn every lesson exactly as it is written in the original books — faithfully preserved page by page.</p>
+    <p style="font-size: 0.85rem; margin-top: 1rem; opacity: 0.7;">Crafted with love for Muslim youth worldwide • All
+      Rights Reserved</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="books.js"></script>
+  <script src="data.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
